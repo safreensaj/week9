@@ -1,0 +1,2 @@
+1. What is State Management?
+State Management is the process of managing and updating data in an application.
