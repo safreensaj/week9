@@ -1,0 +1,58 @@
+1. createSlice()
+createSlice() is a Redux Toolkit function used to create a slice of state, reducers, and action creators.
+Redux Toolkit-ലെ ഒരു function ആണ് createSlice(). ഇത് ഉപയോഗിച്ച് State, Reducer Functions, Action Creators എന്നിവ ഒരുമിച്ച് create ചെയ്യാം.
+
+2. Initial State
+Initial State is the default state of a Redux slice when the application starts.
+ഒരു Redux Slice ആദ്യം തുടങ്ങുമ്പോൾ അതിലുള്ള default data ആണ് Initial State.
+
+3. Reducer Functions
+Reducer Functions are functions that take the current state and an action, then update the state.
+നിലവിലുള്ള State-ഉം Action-ഉം സ്വീകരിച്ച് State എങ്ങനെ update ചെയ്യണമെന്ന് തീരുമാനിക്കുന്ന functions ആണ് Reducers.
+
+4. Action Creators
+Action Creators are functions that create and return action objects.
+Redux-ൽ ഒരു Action സൃഷ്ടിക്കുന്ന functions ആണ് Action Creators.
+createSlice() ഉപയോഗിക്കുമ്പോൾ Redux Toolkit ഇവ സ്വയം create ചെയ്യും.
+
+
+5. Multiple Slices
+Multiple Slices means creating separate slices to manage different parts of the application state.
+Application-ലെ വ്യത്യസ്ത data manage ചെയ്യാൻ പ്രത്യേകം Slices ഉണ്ടാക്കുന്നതാണ് Multiple Slices.
+
+6. Combining Reducers
+Combining Reducers means combining multiple slice reducers into one Redux Store.
+പല Slice-കളുടെ Reducers-നെ ഒരൊറ്റ Redux Store-ൽ connect ചെയ്യുന്നതാണ് Combining Reducers.
+
+7. Folder Structure – Feature-based Architecture
+Feature-based architecture means organizing files based on application features.
+ഓരോ Feature-നും ആവശ്യമായ files അതിന്റേതായ folder-ൽ organize ചെയ്യുന്ന രീതിയാണ് Feature-based Architecture.
+
+Example:
+src/
+ ├── app/
+ │    └── store.js
+ │
+ ├── features/
+ │    ├── auth/
+ │    │    └── authSlice.js
+ │    │
+ │    └── tasks/
+ │         └── taskSlice.js
+
+
+ 8. Best Practices in Redux
+Best Practices are good coding methods used to write clean, simple, and maintainable Redux applications.
+Redux code വൃത്തിയായും എളുപ്പത്തിൽ maintain ചെയ്യാൻ കഴിയുന്ന രീതിയിലും എഴുതാനുള്ള നല്ല coding ശീലങ്ങളാണ് Best Practices.
+
+Important Best Practices:
+
+Use Redux Toolkit	createSlice() ഉപയോഗിക്കുക
+Keep State Simple	ആവശ്യമുള്ള data മാത്രം സൂക്ഷിക്കുക
+Use Meaningful Names	വ്യക്തമായ പേരുകൾ നൽകുക
+Keep Reducers Pure	Reducer-ൽ API calls ചെയ്യരുത്
+Avoid Unnecessary Global State	എല്ലാം Redux-ൽ സൂക്ഷിക്കരുത്
+Organize Files	Feature-based folders ഉപയോഗിക്കുക
+"Redux Best Practices help us write clean and maintainable code. We should use Redux Toolkit, keep state simple, and avoid unnecessary global state."
+
+

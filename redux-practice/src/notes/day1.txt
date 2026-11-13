@@ -1,2 +1,69 @@
 1. What is State Management?
 State Management is the process of managing and updating data in an application.
+
+2. Local State vs Global State
+Local state is data managed inside a single component.
+Global state is data shared between multiple components.
+
+3. Problems with Prop Drilling
+Prop drilling is passing data through multiple components to reach a deeply nested component.
+ഒരു parent component-ൽ നിന്ന് വളരെ താഴെയുള്ള child component-ലേക്ക് data എത്തിക്കാൻ ഇടയിലുള്ള എല്ലാ components-ലൂടെയും props pass ചെയ്യേണ്ടിവരുന്ന പ്രശ്നമാണ് Prop Drilling.
+Problem:
+- Too many props.
+- Code becomes complicated.
+- Difficult to maintain.
+Solution: Context API or Redux പോലുള്ള Global State Management methods ഉപയോഗിക്കാം.
+
+4. Introduction to Redux
+Redux is a state management library used to manage application data in a centralized store.
+React application-ലെ shared data ഒരു central place-ൽ manage ചെയ്യാൻ ഉപയോഗിക്കുന്ന JavaScript library ആണ് Redux.
+
+5. Flux Architecture
+Flux is an application architecture that follows unidirectional data flow.
+Data ഒരു നിശ്ചിത direction-ൽ മാത്രം flow ചെയ്യുന്ന application architecture ആണ് Flux.
+Flux-ൽ നാല് main parts ഉണ്ട്:
+1. Action – എന്ത് സംഭവിക്കണം എന്ന് പറയുന്നു.
+2. Dispatcher – Action forward ചെയ്യുന്നു.
+3. Store – Data സൂക്ഷിക്കുന്നു.
+4. View – UI കാണിക്കുന്നു.
+Remember: Flux = One-way data flow.
+
+6. Redux Core Concepts
+A. Store
+Store is a central place where application state is stored.
+Application-ന്റെ shared state സൂക്ഷിക്കുന്ന central place ആണ് Store.
+B. Action
+An action is a plain JavaScript object that describes what happened.
+Application-ൽ എന്താണ് സംഭവിച്ചത് എന്ന് അറിയിക്കുന്ന ഒരു JavaScript object ആണ് Action.
+C. Reducer
+A reducer is a function that takes the current state and an action and returns the next state.
+നിലവിലുള്ള State-ഉം Action-ഉം സ്വീകരിച്ച് പുതിയ State നൽകുന്ന function ആണ് Reducer.
+D. Dispatch
+Dispatch is used to send an action to the Redux Store.
+ഒരു Action Redux Store-ലേക്ക് അയക്കാൻ ഉപയോഗിക്കുന്ന method ആണ് Dispatch.
+
+7. Redux Data Flow
+Redux follows a unidirectional data flow. An action is dispatched, the reducer calculates the new state, the store updates, and the UI re-renders.
+User ഒരു button click ചെയ്യുമ്പോൾ Action dispatch ചെയ്യുന്നു. Reducer പുതിയ State തയ്യാറാക്കുന്നു. Store update ആകുന്നു. അവസാനം UI പുതിയ data കാണിക്കുന്നു.
+
+8. Installing Redux Toolkit
+Redux Toolkit is the official recommended way to write Redux logic.
+Redux code എളുപ്പത്തിലും കുറച്ച് code ഉപയോഗിച്ചും എഴുതാൻ സഹായിക്കുന്ന official Redux tool ആണ് Redux Toolkit.
+Install ചെയ്യാൻ:
+npm install @reduxjs/toolkit react-redux
+രണ്ട് packages ആണ് install ചെയ്യുന്നത്:
+Package	Purpose
+@reduxjs/toolkit	Redux logic manage ചെയ്യാൻ
+react-redux	React-നെ Redux-മായി connect ചെയ്യാൻ
+Remember: Redux Toolkit makes Redux easier.
+
+Provider
+Provider makes the Redux Store available to all child components in the React application.
+React application-ന്റെ components-ന് Redux Store access ചെയ്യാൻ സഹായിക്കുന്ന component ആണ് Provider.
+Example:
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+
+<Provider store={store}>
+  <App />
+</Provider>
