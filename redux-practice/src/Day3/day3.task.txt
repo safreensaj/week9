@@ -1,0 +1,87 @@
+features/tasks/taskSlice.js
+import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+export const fetchTasks=createAsyncThunk(
+  "tasks/fetchTasks",
+  async()=>{
+  const response=await axios.get("https://jsonplaceholder.typicode.com/todos");
+  return response.data
+  }
+)
+
+export const taskSlice=createSlice({
+  name:"task",
+  initialState:{
+    tasks:[],
+    loading:false,
+    error:null
+  },
+  extraReducers:(builder)=>{
+    builder.addCase(fetchTasks.pending,(state)=>{
+      state.loading=true;
+    })
+    .addCase(fetchTasks.fulfilled,(state,action)=>{
+      state.loading=false;
+      state.tasks=action.payload;
+    })
+    .addCase(fetchTasks.rejected,(state,action)=>{
+      state.loading=false;
+      state.error=action.error.message
+    })
+  }
+})
+
+
+app/store.js
+import { configureStore } from "@reduxjs/toolkit";
+import { taskSlice } from "../features/tasks/taskSlice";
+export const store=configureStore({
+    reducer:{
+        tasks:taskSlice.reducer
+    }
+})
+
+
+
+main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Provider store={store}>
+    <App />
+    </Provider>
+  </StrictMode>,
+)
+
+
+App.jsx
+import { useDispatch,useSelector } from "react-redux";
+import { fetchTasks } from "./features/tasks/taskSlice";
+import { useEffect } from "react";
+function App(){
+  const dispatch=useDispatch();
+  const {tasks,loading,error}=useSelector((state)=>state.tasks);
+  useEffect(()=>{
+dispatch(fetchTasks())
+  },[dispatch])
+  if(loading){
+    return <h2>Loading...</h2>
+  }
+  if(error){
+    return <h2>Error: {error}</h2>
+  }
+  return (
+    <div>
+      <h1>Task Management</h1>
+      {tasks.map((task)=>(
+        <div key={task.id}>{task.title}</div>
+      ))}
+    </div>
+  )
+}
+export default App;
