@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { taskSlice } from "../features/tasks/taskSlice";
+import studentReducer from "../features/student/studentSlice"
 export const store=configureStore({
     reducer:{
-        tasks:taskSlice.reducer
+        students:studentReducer
     }
 })

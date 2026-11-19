@@ -1,24 +1,24 @@
-import { useDispatch,useSelector } from "react-redux";
-import { fetchTasks } from "./features/tasks/taskSlice";
-import { useEffect } from "react";
+import {useDispatch,useSelector} from "react-redux"
+import { updateMathMark } from "./features/student/studentSlice";
 function App(){
   const dispatch=useDispatch();
-  const {tasks,loading,error}=useSelector((state)=>state.tasks);
-  useEffect(()=>{
-dispatch(fetchTasks())
-  },[dispatch])
-  if(loading){
-    return <h2>Loading...</h2>
-  }
-  if(error){
-    return <h2>Error: {error}</h2>
+  const students=useSelector((state)=>state.students.students);
+  const handleUpdate= ()=>{
+    dispatch(updateMathMark({
+       id:2,
+       marks:98
+    }))
   }
   return (
     <div>
-      <h1>Task Management</h1>
-      {tasks.map((task)=>(
-        <div key={task.id}>{task.title}</div>
-      ))}
+<button onClick={handleUpdate}>update mark</button>
+{students.map((student)=>(
+  <div key={student.id}>
+    <h3>{student.name}</h3>
+    <p>Maths: {student.marks.maths}</p>
+    <p>Science: {student.marks.science}</p>
+  </div>
+))}
     </div>
   )
 }
