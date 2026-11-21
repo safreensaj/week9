@@ -1,25 +1,18 @@
-import {useDispatch,useSelector} from "react-redux"
-import { updateMathMark } from "./features/student/studentSlice";
+import {Route,Routes,BrowserRouter} from "react-router-dom"
+import Login from "./pages/Login"
+import ProtectedRoute from "./components/protectedRoute"
+import DashBoard from "./components/DashBord"
+
 function App(){
-  const dispatch=useDispatch();
-  const students=useSelector((state)=>state.students.students);
-  const handleUpdate= ()=>{
-    dispatch(updateMathMark({
-       id:2,
-       marks:98
-    }))
-  }
   return (
-    <div>
-<button onClick={handleUpdate}>update mark</button>
-{students.map((student)=>(
-  <div key={student.id}>
-    <h3>{student.name}</h3>
-    <p>Maths: {student.marks.maths}</p>
-    <p>Science: {student.marks.science}</p>
-  </div>
-))}
-    </div>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login/>}/>
+
+<Route path="/dashboard" element={<ProtectedRoute><DashBoard/></ProtectedRoute>}/>
+<Route path="*" element={<h2>Page Not Found</h2>} />
+    </Routes>
+    </BrowserRouter>
   )
 }
 export default App;
