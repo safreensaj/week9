@@ -1,0 +1,156 @@
+features/auth/authSlice
+import { createSlice } from "@reduxjs/toolkit";
+const savedToken = localStorage.getItem("token");
+const savedUser = localStorage.getItem("user");
+const authSlice=createSlice({
+    name:"auth",
+    initialState:{
+        isLoggedIn: !!savedToken,
+        token:savedToken,
+        user: savedUser
+    },
+    reducers:{
+        login:(state,action)=>{
+            state.isLoggedIn=true;
+            state.user=action.payload.user;
+            state.token=action.payload.token;
+        },
+        logout:(state)=>{
+            state.isLoggedIn=false;
+            state.user=null;
+            state.token=null
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+        }
+    }
+})
+export const {login,logout}=authSlice.actions;
+export default authSlice.reducer;
+
+
+pages/Login.jsx
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import {login} from "../features/auth/authSlice"
+import {useNavigate} from "react-router-dom"
+
+function Login(){
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
+    const [userName,setUserName]=useState("")
+     const [password,setPassword]=useState("")
+    
+     function handleLogin(){
+        if(userName&&password){
+            const token="my-dummy-password"
+        localStorage.setItem("token",token);
+        localStorage.setItem("user", userName);
+        dispatch(login({
+            user:userName,
+            token:token
+        
+        }))
+        navigate("/dashboard")
+    }
+     }
+    return (
+        <div>
+<h2>Login page</h2>
+<input
+type="text"
+placeholder="Enter your name"
+value={userName}
+onChange={(e)=>setUserName(e.target.value)}
+/>
+<input
+type="password"
+value={password}
+onChange={(e)=>setPassword(e.target.value)}
+/>
+<button onClick={handleLogin}>Login</button>
+        </div>
+    )
+}
+export default Login;
+
+main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Provider store={store}>
+    <App />
+    </Provider>
+  </StrictMode>,
+)
+
+
+
+app/store.js
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "../features/auth/authSlice";
+export const store=configureStore({
+   reducer:{
+    auth:authReducer
+   }
+})
+
+
+components/DashBoard.jsx
+ import { useSelector } from "react-redux";
+ import { useDispatch } from "react-redux";
+ import {useNavigate} from "react-router-dom"
+ import { logout } from "../features/auth/authSlice";
+ function DashBoard(){
+    const user = useSelector((state) => state.auth.user);
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
+    function handleLogout(){
+dispatch(logout())
+navigate("/")
+    }
+    return (
+        <div>
+            <h2>Welcome {user}</h2>
+            <button onClick={handleLogout}>Logout</button>
+        </div>
+    )
+}
+export default DashBoard;
+
+
+components/ProtactedRoute.jsx
+import { useSelector } from "react-redux";
+import {Navigate} from "react-router-dom"
+
+
+function ProtectedRoute({children}){
+    const isLoggedIn = useSelector((state)=>state.auth.isLoggedIn)
+return isLoggedIn ? children : <Navigate to="/" />;
+}
+export default ProtectedRoute;
+
+
+App.jsx
+import {Route,Routes,BrowserRouter} from "react-router-dom"
+import Login from "./pages/Login"
+import ProtectedRoute from "./components/protectedRoute"
+import DashBoard from "./components/DashBord"
+
+function App(){
+  return (
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login/>}/>
+
+<Route path="/dashboard" element={<ProtectedRoute><DashBoard/></ProtectedRoute>}/>
+<Route path="*" element={<h2>Page Not Found</h2>} />
+    </Routes>
+    </BrowserRouter>
+  )
+}
+export default App;

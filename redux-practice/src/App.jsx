@@ -1,18 +1,12 @@
-import {Route,Routes,BrowserRouter} from "react-router-dom"
-import Login from "./pages/Login"
-import ProtectedRoute from "./components/protectedRoute"
-import DashBoard from "./components/DashBord"
-
+import { lazy,Suspense } from "react";
+const Dashboard=lazy(()=>import("./pages/Dashboard"))
 function App(){
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Login/>}/>
-
-<Route path="/dashboard" element={<ProtectedRoute><DashBoard/></ProtectedRoute>}/>
-<Route path="*" element={<h2>Page Not Found</h2>} />
-    </Routes>
-    </BrowserRouter>
+      <div>
+<Suspense fallback={<h2>Loading Dashboard..</h2>}>
+  <Dashboard/>
+</Suspense>
+      </div>
   )
 }
 export default App;
